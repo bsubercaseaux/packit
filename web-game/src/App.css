@@ -1,0 +1,129 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.qMark {
+  height: 40px;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .qMark {
+    animation: App-logo-spin infinite 5s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(45deg);
+  }
+}
+
+/* Game.css */
+.game-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dimInput {
+  width: 30px;
+  height: auto;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+  opacity: 1
+}
+
+.resetBtn {
+  top: 50%;
+  box-sizing: border-box;
+  background-color:rgb(12, 181, 108);
+  color: #fff;
+  border:none;
+  border-radius: 5px;
+}
+
+.howTo {
+  border:#fff solid 1px;
+  background-color: transparent;
+  color: #fff;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.howTo:hover {
+  background-color: #2eb02e;
+  /* color: #2eb02e; */
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  border: 2px solid rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: 'Helvetica';
+  font-size: xx-large;
+  transition: background-color 0.2s; /* smooth transition for the hover effect */
+  position: relative; /* add position relative */
+  user-select: none; /* prevent text selection */
+}
+
+.cell:hover {
+  background-color: rgba(0, 255, 0, 0.5); /* green color with low opacity */
+}
+
+
+.cell::after {
+  content: ''; /* Add pseudo-element for hover effect */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(172, 255, 190, 0.6); /* green color with low opacity */
+  opacity: 0; /* initially invisible */
+  transition: opacity 0.3s; /* smooth transition for opacity */
+}
+
+.cell.empty-cell:hover::after {
+  opacity: 1; /* make it visible on hover */
+}
+
+.cell.highlight-rectangle {
+  background-color: rgba(172, 255, 190, 0.4) !important; /* Add !important to override */
+}
+
+.cell.startCell {
+  background-color: rgba(135, 200, 135, 0.5) !important;
+}
+
