@@ -6,7 +6,7 @@ Pack it! is a two player game where players alternate turns placing rectangular 
 
 ## On the web 
 
-I made a small React implementation of the game, which is publicly available at [packit.surge.sh](packit.surge.sh).
+I made a small React implementation of the game, which is publicly available at [packit.surge.sh](https://packit.surge.sh).
 
 ![Screenshot of the basic look of the game](./img/web-screenshot.png)
 
