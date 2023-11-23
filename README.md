@@ -1,6 +1,6 @@
 # Pack it!
 
-Code related to the Pack it! game, by Thomas Garrison @ CMU.
+Code related to the Pack it! game (idea of Thomas Garrison).
 
 Pack it! is a two player game where players alternate turns placing rectangular tiles on an NxN grid. The rules are quite simple: on turn i (starting from 1), the current player (i % 2 ? 1 : 2) can place a rectangular tile of area i or i+1, that doesn't overlap with existing tiles. A player that cannot place any tiles on their turn loses!
 
