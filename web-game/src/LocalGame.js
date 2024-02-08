@@ -4,40 +4,36 @@ import GameBoard from './GameBoard';
 import { intersect, isValidPlacement } from './utils';
 
 
-const Game = ({ broadcastMove, lastOpponentTurn }) => {
+const LocalGame = () => {
     const [grid, setGrid] = useState(Array(5).fill(Array(5).fill(null)));
     const [gridSize, setGridSize] = useState(5);
     const [currentTurn, setCurrentTurn] = useState(1);
     const [winner, setWinner] = useState(null);
-    const [playerIndex, setPlayerIndex] = useState(null);
     
-    useEffect(() => {
-        if(lastOpponentTurn) {
-            onOpponentTurn(lastOpponentTurn);
-        }
-        // eslint-disable-next-line
-    }, [lastOpponentTurn]);
-
     const resetGame = (size) => {
+        console.log('resetting game with size', size);
         setCurrentTurn(1);
         setWinner(null);
-        setGrid(Array(size).fill(Array(size).fill(null)));
+        
+        let newGrid = Array(parseInt(size)).fill(Array(parseInt(size)).fill(null));
+        console.log(newGrid);
+        setGrid(newGrid);
     }
-
-    const onOpponentTurn = (move) => {
-        if(playerIndex === null) {
-            setPlayerIndex(2);
-        }
+   
+    const onPlayerTurn = (move) => {
         onTurn(move);
     }
     
-    const onPlayerTurn = (move) => {
-        if(playerIndex === null) {
-            setPlayerIndex(1);
+    const printBoard = () => {
+        let st = "";
+        for (let i = 0; i < grid.length; i++) {
+            
+            for(let j = 0; j < grid.length; j++) {
+                st += (grid[i][j] ? grid[i][j] : '-') + " ";
+            }
+            st += "\n";
         }
-        else if((currentTurn-1) % 2 !== (playerIndex-1)) return;
-        onTurn(move);
-        broadcastMove(move);
+        console.log(st);
     }
     
 
@@ -99,14 +95,19 @@ const Game = ({ broadcastMove, lastOpponentTurn }) => {
             <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 10 }}>
                 <p style={{ margin: 0, marginRight: 8 }}> board dimension  </p>
                 <input className="dimInput" type="number" value={gridSize} onChange={(e) => {
+                    console.log(e.target.value);
                     setGridSize(e.target.value)
                 }} />
                 <button className="resetBtn" style={{ marginLeft: 10 }} onClick={() => resetGame(gridSize)}>
                     Reset
                 </button>
             </div>
+            
+            <button  style={{ marginLeft: 10 }} onClick={() => printBoard()}>
+                    Print board
+            </button>
         </div>
     );
 };
 
-export default Game;
+export default LocalGame;
