@@ -34,8 +34,6 @@ for k, size in enumerate(rectangles):
     Z.add_var(f"h_{k}", f"the {k}-th rec appears horizontally")
     Z.add_svar(f"x_{k}", "ORDER_INTERVAL", description=f"horizontal interval of the {k}-th rec", interval=(0, N), active_length=(f"h_{k}", size[0], size[1]))
     Z.add_svar(f"y_{k}", "ORDER_INTERVAL", description=f"vertical interval of the {k}-th rec", interval=(0, N), active_length=(f"h_{k}", size[1], size[0]))
-    
-    
 ## No overlaps :)
 for k_1, s1, in enumerate(rectangles):
     for k_2, s2 in enumerate(rectangles[k_1+1:], start=k_1+1):

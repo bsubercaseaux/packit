@@ -60,35 +60,27 @@ with localsolver.LocalSolver() as ls:
     
     ls.param.time_limit = time_limit
     ls.solve()
-    
     answer  = []
     print(area_sum.value)
         
     # recomputed_area_sum = 0
-    # for turn in turns:
-    #     for i in range(len(variables[turn])):
-    #         recomputed_area_sum += areas[turn][i]*variables[turn][i].value
-    #         if variables[turn][i].value == 1:
-    #             print("We added variable", variables[turn][i], "with area", areas[turn][i], "to the sum, which is now", recomputed_area_sum)
-    #         else:
-    #             print(variables[turn][i].value)
 
     for turn in variables.keys():
-        # exp = sum(v for v in variables[turn])
-        #print(f"turn {turn} has {exp.value} rectangles")
         for i, var in enumerate(variables[turn]):
             if var.value == 1:
                 
                 print(f"turn {turn}", decompositions[turn][i], f" has area {areas[turn][i]}")
                 answer.append(decompositions[turn][i])
             
-    print(answer)
-    
+
     output_file_name = f"packit-{N}.txt"
     
     if output_file is not None:
         output_file_name = output_file
     
     with open(output_file_name, 'w') as ofile:
-        for rec in answer:
-            ofile.write(f"{rec[0]} {rec[1]}\n")
+        if localsolver.LSSolutionStatus[0] == localsolver.LSSolutionStatus.INCONSISTENT:
+            ofile.write('NO SOLUTION\n')
+        else:
+            for rec in answer:
+                ofile.write(f"{rec[0]} {rec[1]}\n")
