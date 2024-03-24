@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import GameBoard from './GameBoard';
 import { intersect, isValidPlacement } from './utils';
+// import { intersect, isValidPlacement, getComputerMove } from './utils';
 
 
 const LocalGame = () => {
@@ -9,6 +10,7 @@ const LocalGame = () => {
     const [gridSize, setGridSize] = useState(5);
     const [currentTurn, setCurrentTurn] = useState(1);
     const [winner, setWinner] = useState(null);
+    const [solitaireMode, setSolitaireMode] = useState(false); 
     
     const resetGame = (size) => {
         console.log('resetting game with size', size);
@@ -21,9 +23,21 @@ const LocalGame = () => {
     }
    
     const onPlayerTurn = (move) => {
-        onTurn(move);
+        if (!solitaireMode) {
+            onTurn(move);
+        }
+        // onTurn(move);
     }
     
+    useEffect(() => {
+        if (solitaireMode && currentTurn % 2 === 0) {
+            // Computer's turn in solitaire mode
+            // const computerMove = getComputerMove(grid, currentTurn);
+            // onTurn(computerMove);
+        }
+    }, [solitaireMode, currentTurn]);
+
+
     const printBoard = () => {
         let st = "";
         for (let i = 0; i < grid.length; i++) {
@@ -91,7 +105,7 @@ const LocalGame = () => {
                 onTurn={onPlayerTurn}
                 turnNumber={currentTurn}
             />
-            <p> <b>Current Turn:</b> {currentTurn} ({currentTurn % 2 ? 'Player 1' : 'Player 2'})</p>
+            <p> <b>Current Turn:</b> {currentTurn} </p>
             <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 10 }}>
                 <p style={{ margin: 0, marginRight: 8 }}> board dimension  </p>
                 <input className="dimInput" type="number" value={gridSize} onChange={(e) => {
@@ -102,10 +116,9 @@ const LocalGame = () => {
                     Reset
                 </button>
             </div>
-            
-            <button  style={{ marginLeft: 10 }} onClick={() => printBoard()}>
+        
                     Print board
-            </button>
+            
         </div>
     );
 };

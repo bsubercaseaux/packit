@@ -68,6 +68,75 @@ input[type=number]::-webkit-inner-spin-button {
   border-radius: 5px;
 }
 
+.cuteBtn {
+  top: 50%;
+  box-sizing: border-box;
+  background-color:rgb(12, 181, 108);
+  font-family: Arial, Helvetica, sans-serif; 
+  /* come back to this later */
+  color: #fff; 
+  border:none;
+  border-radius: 5px;
+}
+
+.cuteBtn:hover {
+  /* background-color: rgb(101, 115, 96); */
+  background-color: #81b681 !important; 
+  border-radius: 5px; 
+
+   
+  /* color: rgb() */
+}
+
+.modal-overlay {
+  position: fixed;
+  z-index: 90;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: rgb(90, 123, 93);
+  width: 60%;
+  height: 70%;
+  z-index: 9; 
+  box-shadow:0 20px 20px rgba(177, 235, 191, 0.3);
+  font-family: Arial, Helvetica, sans-serif; 
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 0px;
+}
+
+/* .modal::before { 
+  content: "";
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  display: inline-block;
+  top: 0;
+  left: 0;
+  z-index: 999; 
+} */
+.modal-close {
+  background: #ccc;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.modal-content {
+  margin-top: 10px;
+}
+
+/*
 .howTo {
   border:#fff solid 1px;
   background-color: transparent;
@@ -78,9 +147,10 @@ input[type=number]::-webkit-inner-spin-button {
 
 .howTo:hover {
   background-color: #2eb02e;
-  /* color: #2eb02e; */
+  
 }
 
+*/
 .row {
   display: flex;
 }

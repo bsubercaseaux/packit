@@ -1,15 +1,51 @@
 import React, { useState, useEffect } from 'react';
+import Modal from './Modal';
 import './App.css';
 import RemoteGame from './RemoteGame.js';
 import LocalGame from './LocalGame.js';
+import AIGame from './AIGame.js';
+import CuteButton from './CuteButton.js';
 // import { socket } from './socket';
+
 
 function App() {
   const [messages, setMessages] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
   const [lastOpponentTurn, setLastOpponentTurn] = useState(null);
-  const [isLocalMode, setIsLocalMode] = useState(true);
+  const [mode, setMode] = useState("solitaire");
 
+
+
+  // for the modal
+  const [modalContent, setModalContent] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = (content) => {
+    setModalContent(content);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  
+  const howToPlayContent = (
+    <>
+      <h2>How to Play</h2>
+      <p>
+        <ol>
+        <li> Pack It! is a two-player game where players take turns placing rectangular tiles on the board. </li>
+        <li> In turn number i, a tile is placeable if it has an area of i or i+1. </li>
+        <li> Whenever a player has no placeable tiles, the other player wins!</li>
+        <li> To place a rectangular tile, first click on one of the corners of the rectangle, and then on the other corner (this means that if it's a 1x1 tile you must click twice on its cell!). </li>
+        </ol>
+        <br /><br />
+        Game idea by Thomas Garrison. Code by Bernardo Subercaseaux and Abigail Kamenetsky
+        
+      </p>
+    </>
+  );
+  
   // useEffect(() => {
   //   function onConnect() {
   //     console.log('connected');
@@ -49,35 +85,58 @@ function App() {
 
 
   // Function to toggle the mode
-  const toggleMode = () => {
-    setIsLocalMode(!isLocalMode);
-  };
+
+
+  console.log('isModalOpen:', isModalOpen);
+
+  const opModal = (event) => {
+    console.log("opModal");
+    openModal(howToPlayContent);
+
+  }; 
 
   return (
     <div className="App">
       <header className="App-header" >
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <h1 style={{ margin: 5 }}>Pack It!</h1>
-          <button className='howTo' onClick={() => alert("1) Pack It! is a two-player game where players take turns placing rectangular tiles on the board.\n2) In turn number i, a tile is placeable if it has area i or i+1.\n3) Whenever a player has no placeable tiles, the other player wins!\n4) To place a rectangular tile, first click on one of the corners of the rectangle, and then on the other corner (this means that if it's a 1x1 tile you must click twice on its cell!). \n\n Game idea by Thomas Garrison. Code by Bernardo Subercaseaux.")}>
-            how to play 🤔
-            {/* <img src={qmark} className="qMark" alt="logo" /> */}
-          </button>
+
+          
         </div>
 
         <div style={{
           display: 'flex', flexDirection: 'row', alignContent: 'center',
           alignItems: 'center'
         }} >
-          <p> Current mode: {isLocalMode ? 'local' : 'remote'} </p>
-          <button onClick={toggleMode} style={{ height: 20, marginLeft: 20 }}>
-            Switch to {isLocalMode ? 'remote' : 'local'} mode
-          </button>
+
+          <CuteButton text={"How to Play"} color={"#CBE3C3"} style = {{color: "#000"}} onClick={opModal} />    
+          <CuteButton text={"Solitaire Mode"} color={"#CBE3C3"} style = {{color: "#000"}} onClick = {() => {setMode("solitaire")}}  />
+          {/* get rid of "player 1" for solitaire mode */}
+          {/* remove print board / developer mode for print board */}
+          {/* turn alerts into modals, get rid of green color for 1 */}
+
+          <CuteButton text={"2 Players (coming soon)"} color={"#CDCDCD"} style={{ color: "#000", opacity: 0.5, pointerEvents: 'none' }} />
+
+          <CuteButton text={"AI mode"} color={"#CBE3C3"} style={{ color: "#000" }} onClick = {() => {setMode("AIMove")}} />
+
+        
+
+
+
+        <Modal isOpen={isModalOpen} closeModal={closeModal}>
+          {modalContent}
+        </Modal>
+
+          {/* <p> Current mode: {isLocalMode ? 'local' : 'remote'} </p>
+          {/* <button onClick={toggleMode} style={{ height: 20, marginLeft: 20 }}> */}
+            {/* Switch to {isLocalMode ? 'remote' : 'local'} mode */}
+          {/* </button> */}
         </div>
+        {/* cute_button */}
 
         {
-          <LocalGame />
-          // isLocalMode ? <LocalGame /> : <RemoteGame messages={messages}
-          //   broadcastMove={broadcastMove} lastOpponentTurn={lastOpponentTurn} />
+          // A ? B : C -- if a is true, does b, if not, c
+          mode==="solitaire" ? <LocalGame /> : <AIGame />
         }
         {/* <p>Game idea 💡 by Thomas Garrison. Code 🧑🏻‍💻 by Bernardo Subercaseaux.</p> */}
       </header>
