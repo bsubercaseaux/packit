@@ -1,0 +1,79 @@
+c ---- [ banner ] ------------------------------------------------------------
+c
+c Kissat SAT Solver
+c 
+c Copyright (c) 2021-2023 Armin Biere University of Freiburg
+c Copyright (c) 2019-2021 Armin Biere Johannes Kepler University Linz
+c 
+c Version 3.1.1 71caafb4d182ced9f76cef45b00f37cc598f2a37
+c Apple clang version 14.0.3 (clang-1403.0.22.14.1) -W -Wall -O3 -DNDEBUG
+c Mon Nov 6 15:40:16 EST 2023 Darwin GS21851.SP.CS.CMU.EDU 22.2.0 arm64
+c
+c ---- [ parsing ] -----------------------------------------------------------
+c
+c opened and reading DIMACS file:
+c
+c   cnfs/packit-5.cnf
+c
+c parsed 'p cnf 141 425' header
+c closing input after reading 6416 bytes (6 KB)
+c finished parsing after 0.00 seconds
+c
+c ---- [ solving ] -----------------------------------------------------------
+c
+c  seconds switched conflicts irredundant variables
+c         MB reductions redundant   trail   remaining
+c          level restarts   binary     glue
+c
+c *  0.00  2 0 0 0  0   0   0 150 274 0% 0 130 92%
+c {  0.00  2 0 0 0  0   0   0 150 274 0% 0 130 92%
+c i  0.00  2 16 0 0  2   6   1 150 274 46% 2 129 91%
+c i  0.00  2 8 0 0  2  50  40 152 274 55% 3 128 90%
+c i  0.00  2 8 0 0  2  60  48 153 274 57% 3 126 89%
+c i  0.00  2 8 0 0  2  61  48 153 274 56% 3 124 87%
+c }  0.00  2 8 0 0  2  69  56 153 274 60% 3 124 87%
+c 1  0.00  2 8 0 0  2  69  56 153 274 60% 3 124 87%
+c
+c ---- [ result ] ------------------------------------------------------------
+c
+s SATISFIABLE
+v -1 2 3 4 5 -6 7 -8 9 -10 11 12 13 -14 15 -16 17 -18 19 -20 21 -22 23 24 25
+v 26 27 28 -29 30 -31 32 33 -34 35 -36 37 -38 39 -40 41 42 43 44 -45 46 -47 48
+v 49 -50 51 -52 53 54 55 56 57 58 59 60 61 -62 63 64 65 -66 67 -68 69 -70 71
+v 72 -73 74 75 76 77 78 79 80 81 82 83 84 85 86 -87 88 -89 90 -91 92 -93 94 95
+v 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 -111 112 -113 114
+v -115 116 117 -118 119 120 121 122 123 124 -125 126 127 -128 -129 -130 131
+v 132 -133 -134 135 -136 -137 -138 -139 -140 -141 0
+c
+c ---- [ profiling ] ---------------------------------------------------------
+c
+c           0.00   46.25 %  search
+c           0.00   43.22 %  focused
+c           0.00   20.10 %  parse
+c           0.00    0.00 %  simplify
+c =============================================
+c           0.00  100.00 %  total
+c
+c ---- [ statistics ] --------------------------------------------------------
+c
+c conflicts:                               69            17280.24 per second
+c decisions:                              180                2.61 per conflict
+c jumped_reasons:                         545               32 %  propagations
+c propagations:                          1703           426496    per second
+c queue_decisions:                        180              100 %  decision
+c random_decisions:                         0                0 %  decision
+c random_sequences:                         0                0    interval
+c restarts:                                 2               34.50 interval
+c score_decisions:                          0                0 %  decision
+c switched:                                 0                0    interval
+c vivify_checks:                            0                0    per vivify
+c vivify_units:                             0                0 %  variables
+c
+c ---- [ resources ] ---------------------------------------------------------
+c
+c maximum-resident-set-size:       1778384896 bytes       1696 MB
+c process-time:                                              0.00 seconds
+c
+c ---- [ shutting down ] -----------------------------------------------------
+c
+c exit 10

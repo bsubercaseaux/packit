@@ -7,7 +7,7 @@ export const intersect = (rect1, rect2) => {
     return false;
 }
 
-export const isValidPlacement = (grid, row, col, row2, col2, turn) => {
+export const isValidPlacement    = (grid, row, col, row2, col2, turn) => {
     const area = (row2 - row + 1) * (col2 - col + 1);
     if ((area !== turn) && (area !== turn + 1)) return false;
     

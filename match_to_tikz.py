@@ -15,15 +15,37 @@ with open(filename, 'r') as f:
         matrix.append(tokens)
 
 N = len(matrix)
+#print(len(matrix))
 # print(rf"\begin{{scope}}[scale={scale}]")
+
+
+def int_to_letter(i):
+    if i < 27:
+        return chr(ord('a') - 1 + i)
+    elif (i-26) < 27:
+        return chr(ord('A') - 1 + (i-26))
+    else:
+        return int_to_letter(i//52) + int_to_letter(i-52)
+
+
+print(r"\begin{figure}[h]")
+print(r"\centering")
+print(r"\scalebox{0.75}{")
+print(r"\begin{tikzpicture}")
 for i in range(N):
+    #   print(f'len(matrix[{i}]) = {len(matrix[i])}')
     for j in range(N):
         if matrix[i][j] == '-':
-            print(rf"\onesquare{{ {(j)*scale} }}{{ {(N - i)*scale} }}{{\colG}}{{\;}}")
+            print(rf"\onesquareTwo{{ {(j)*scale} }}{{ {(N - i)*scale} }}{{\colG}}{{\;}}")
         else:
-            let = chr(ord('a') -1 + int(matrix[i][j]))
+            let = int_to_letter(int(matrix[i][j]))
             col_id = '\col' + let
             num_id = r'\num' + let
-            print(rf"\onesquare{{ {(j)*scale} }}{{ {(N - i)*scale} }}{{{col_id}}}{{{num_id}}}")
+            print(rf"\onesquareTwo{{ {(j)*scale} }}{{ {(N - i)*scale} }}{{{col_id}}}{{{num_id}}}")
+print(r"\end{tikzpicture}")
+print(r"}")
+print(rf"\caption{{A perfect game of \packit for the ${N} \times {N}$ grid.}}")
+print(rf"\label{{fig:solved-{N}}}")
+print(rf"\end{{figure}}")
 # print(r"\end{scope}")
 

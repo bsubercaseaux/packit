@@ -40,26 +40,31 @@ for k_1, s1, in enumerate(rectangles):
         Z.add_var(f"c_({k_1},{k_2})", f"captures relationship between the {k_1}-th and {k_2}-th almost squares")
         
         for i in range(N):
-            Z.add_sclause(
-                modeler.Implication(
-                    modeler.And(Z.interval_contains(f"x_{k_1}", i), Z.interval_contains(f"x_{k_2}", i)),
-                    Z.v(f"c_({k_1},{k_2})")))
+            Z.add_sclause(f"x_{k_1}[{i}] and x_{k_2}[{i}] => c_({k_1},{k_2})")
                     
         for j in range(N):
-            Z.add_sclause(
-                modeler.Implication(
-                  modeler.And(Z.interval_contains(f"y_{k_1}", j), Z.interval_contains(f"y_{k_2}", j)),
-                  -Z.v(f"c_({k_1},{k_2})")))
+            Z.add_sclause(f"y_{k_1}[{j}] and y_{k_2}[{j}] => -c_({k_1},{k_2})")
         
 ## Symmetry breaking:
 # the left-top corner has smallest value amongst all corners
 # meaning that if its value is i, that implies the other corners don't have value [0, ... i-1].
 if symmetry_breaking:
     print("Using symmetry breaking")
-    for k in range(len(rectangles)):
-        Z.add_clause([Z.v(f"h_{0}")])
+    #for k in range(len(rectangles)):
+    if len(rectangles) > 0:
+        Z.add_clause([Z.v(f"h_{len(rectangles)-1}")])
+       #Z.add_clause([Z.v(f"h_{0}")])
+    # have rectangle 1 in the top-left quadrant
+    if len(rectangles) > 5:
+        for i in range(N//2, N):
+            Z.add_sclause(modeler.Not(Z.interval_contains(f"x_0", i)))
+            Z.add_sclause(modeler.Not(Z.interval_contains(f"y_0", i)))
+        #    Z.add_sclause(modeler.Not(Z.interval_contains(f"y_0", i)))
+        # Z.add_sclause(modeler.Not(Z.interval_contains(f"y_1", i)))
+        
 
-Z.serialize(f"packet-{N}-{r}.cnf")
+if Z.n_clauses() > 0:
+    Z.serialize(f"cnfs/packit-{N}.cnf")
 
 if cnc:
     def cubing(n_vars):
@@ -136,9 +141,16 @@ def to_grid(sem_valuation):
                 
     
     # draw the grid
-    plot_colored_grid(grid, labels=False)
-                
-    grid_str = "\n".join([" ".join(map(str, row)) for row in grid])      
+    # plot_colored_grid(grid, labels=True)
+    def map_val(val):
+        if val > 0:
+            return str(val)
+        else:
+            return '-'
+    def map_vals(row):
+        return list(map(map_val, row))
+    grid_str = "\n".join([" ".join(map(map_val, row)) + " " for row in grid])
+    # print(grid_str)
     return grid_str
         
 

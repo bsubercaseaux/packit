@@ -68,10 +68,10 @@ function App() {
           display: 'flex', flexDirection: 'row', alignContent: 'center',
           alignItems: 'center'
         }} >
-          <p> Current mode: {isLocalMode ? 'local' : 'remote'} </p>
+          {/* <p> Current mode: {isLocalMode ? 'local' : 'remote'} </p>
           <button onClick={toggleMode} style={{ height: 20, marginLeft: 20 }}>
             Switch to {isLocalMode ? 'remote' : 'local'} mode
-          </button>
+          </button> */}
         </div>
 
         {

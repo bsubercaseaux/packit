@@ -53,9 +53,9 @@ with localsolver.LocalSolver() as ls:
 
     
     area_sum = m.sum(areas[turn][i]*variables[turn][i] for turn in turns for i in range(len(variables[turn])) )
-    m.constraint(area_sum == N*N)
+    m.minimize((area_sum - N*N)*(area_sum - N*N))
     
-    m.minimize(areas[1][0]*variables[1][0])
+    # m.minimize(areas[1][0]*variables[1][0])
     m.close()
     
     ls.param.time_limit = time_limit
@@ -79,8 +79,10 @@ with localsolver.LocalSolver() as ls:
         output_file_name = output_file
     
     with open(output_file_name, 'w') as ofile:
-        if localsolver.LSSolutionStatus[0] == localsolver.LSSolutionStatus.INCONSISTENT:
-            ofile.write('NO SOLUTION\n')
-        else:
-            for rec in answer:
-                ofile.write(f"{rec[0]} {rec[1]}\n")
+        print(localsolver.LSSolutionStatus)
+        # if localsolver.LSSolutionStatus[0] == localsolver.LSSolutionStatus.INCONSISTENT:
+          #  print("inconsistent?")
+          #  ofile.write('NO SOLUTION\n')
+        #else:
+        for rec in answer:
+            ofile.write(f"{rec[0]} {rec[1]}\n")

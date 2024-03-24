@@ -85,14 +85,7 @@ const LocalGame = () => {
     // Render the game board
     return (
         <div>
-            {winner && <p style={{ marginTop: 5, marginBottom: 2 }}> <b>Winner:</b> {winner} 🎊</p>}
-            <GameBoard
-                grid={grid}
-                onTurn={onPlayerTurn}
-                turnNumber={currentTurn}
-            />
-            <p> <b>Current Turn:</b> {currentTurn} ({currentTurn % 2 ? 'Player 1' : 'Player 2'})</p>
-            <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 10 }}>
+           <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
                 <p style={{ margin: 0, marginRight: 8 }}> board dimension  </p>
                 <input className="dimInput" type="number" value={gridSize} onChange={(e) => {
                     console.log(e.target.value);
@@ -102,10 +95,18 @@ const LocalGame = () => {
                     Reset
                 </button>
             </div>
+            {winner && <p style={{ marginTop: 5, marginBottom: 2 }}> <b>Winner:</b> {winner} 🎊</p>}
+            <GameBoard
+                grid={grid}
+                onTurn={onPlayerTurn}
+                turnNumber={currentTurn}
+            />
+            <p> <b>Current Turn:</b> {currentTurn} ({currentTurn % 2 ? 'Player 1' : 'Player 2'})</p>
             
-            <button  style={{ marginLeft: 10 }} onClick={() => printBoard()}>
+            
+            {/* <button  style={{ marginLeft: 10 }} onClick={() => printBoard()}>
                     Print board
-            </button>
+            </button> */}
         </div>
     );
 };

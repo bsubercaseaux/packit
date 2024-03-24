@@ -28,7 +28,7 @@ def dp(turn, target, n):
         if r is not None:
             MEMO[(turn, target)] = r
             return MEMO[(turn, target)]
-    MEMO[(turn, target)] = False 
+    MEMO[(turn, target)] = False
     return False
 
 
@@ -63,5 +63,6 @@ with open(output, "w") as f:
     sol = dp(K(n), n*n, n)
     if sol:
         full_sol = process_sol(K(n), n*n, n)
+        full_sol = reversed(full_sol)
         for rec in full_sol:
             f.write(f"{rec[0]} {rec[1]}\n")
