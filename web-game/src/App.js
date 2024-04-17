@@ -13,11 +13,7 @@ function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [lastOpponentTurn, setLastOpponentTurn] = useState(null);
   const [mode, setMode] = useState("solitaire");
-  const [userStart, setUserStarts] = useState(null);
-  //const [AIStart, setAIStarts] = handleUserStarts(null);
-
-
-
+  const [whoStarts, setWhoStarts] = useState(null);
 
   // for the modal
   const [modalContent, setModalContent] = useState(null);
@@ -33,31 +29,17 @@ function App() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
-  /*
-
-  const handleUserStarts = () => {
-    setUserStarts(true);
-    setIsModalOpen(false);
-  };
-
-  const handleAIStarts = () => {
-    setUserStarts(false);
-    setIsModalOpen(false);
-  };
-  */
     
-  const handleWhoStarts = (userStarts) => {
+  const handleWhoStarts = (whoStarts) => {
+    setWhoStarts(whoStarts);
     setIsUserTurnModalOpen(false);
 
-    if (userStarts) {
+    if (whoStarts === "human") {
       console.log("User starts the game. Make your first move!");
-      
     } else {
       console.log("AI starts the game");
-      // AIMove(); 
-
     }
+    setMode("AI")
     
   };
     
@@ -79,47 +61,6 @@ function App() {
     </>
   );
   
-  // useEffect(() => {
-  //   function onConnect() {
-  //     console.log('connected');
-  //     setIsConnected(true);
-  //   }
-
-  //   function onDisconnect() {
-  //     setIsConnected(false);
-  //   }
-
-  //   function onTurnEvent(turn) {
-  //     console.log(turn);
-  //     setLastOpponentTurn(turn);
-  //     //setMessages(previous => [...previous, value]);
-  //     // this.game.onOpponentTurn(value);
-  //     ///setFooEvents(previous => [...previous, value]);
-  //   }
-
-  //   socket.on('connect', onConnect);
-  //   socket.on('disconnect', onDisconnect);
-  //   socket.on('turn', onTurnEvent);
-
-  //   return () => {
-  //     socket.off('connect', onConnect);
-  //     socket.off('disconnect', onDisconnect);
-  //     socket.off('turn', onTurnEvent);
-  //   };
-  // }, []);
-
-  // const broadcastMove = (move) => {
-  //   // send turn to server
-  //   socket.emit('turn', move);
-  // }
-
-
-  // State to track whether the mode is local (true) or remote (false)
-
-
-  // Function to toggle the mode
-
-
   console.log('isModalOpen:', isModalOpen);
 
   const opModal = (event) => {
@@ -151,10 +92,7 @@ function App() {
           <CuteButton text={"2 Players (coming soon)"} color={"#CDCDCD"} style={{ color: "#000", opacity: 0.5, pointerEvents: 'none' }} />
 
           
-          <CuteButton text={"AI mode"} color={"#CBE3C3"} style={{ color: "#000" }} onClick={() => {setIsUserTurnModalOpen(true); setMode("AI")}} />
-
-        
-
+          <CuteButton text={"AI mode"} color={"#CBE3C3"} style={{ color: "#000" }} onClick={() => {setIsUserTurnModalOpen(true)}} />
 
 
         <Modal isOpen={isModalOpen} closeModal={closeModal}>
@@ -164,21 +102,17 @@ function App() {
         <Modal isOpen={isUserTurnModalOpen} closeModal={() => setIsUserTurnModalOpen(false)}>
           <h2>Who starts the game?</h2>
           <div>
-            <CuteButton text="User" color="#CBE3C3" style={{ color: "#000", marginRight: "10px" }} onClick={() => handleWhoStarts(true)} />
-            <CuteButton text="AI" color="#CBE3C3" style={{ color: "#000" }} onClick={() => handleWhoStarts(false)} />
+            <CuteButton text="User" color="#CBE3C3" style={{ color: "#000", marginRight: "10px" }} onClick={() => handleWhoStarts("human")} />
+            <CuteButton text="AI" color="#CBE3C3" style={{ color: "#000" }} onClick={() => handleWhoStarts("AI")} />
           </div>
         </Modal>
 
-          {/* <p> Current mode: {isLocalMode ? 'local' : 'remote'} </p>
-          {/* <button onClick={toggleMode} style={{ height: 20, marginLeft: 20 }}> */}
-            {/* Switch to {isLocalMode ? 'remote' : 'local'} mode */}
-          {/* </button> */}
+       
         </div>
-        {/* cute_button */}
 
         {
           // A ? B : C -- if a is true, does b, if not, c
-          mode==="solitaire" ? <LocalGame /> : <AIGame />
+          mode==="solitaire" ? <LocalGame /> : <AIGame startingPlayer={whoStarts}/>
         }
         {/* <p>Game idea 💡 by Thomas Garrison. Code 🧑🏻‍💻 by Bernardo Subercaseaux.</p> */}
       </header>
