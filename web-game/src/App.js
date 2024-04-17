@@ -13,12 +13,17 @@ function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [lastOpponentTurn, setLastOpponentTurn] = useState(null);
   const [mode, setMode] = useState("solitaire");
+  const [userStart, setUserStarts] = useState(null);
+  //const [AIStart, setAIStarts] = handleUserStarts(null);
+
 
 
 
   // for the modal
   const [modalContent, setModalContent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUserTurnModalOpen, setIsUserTurnModalOpen] = useState(false);
+  
 
   const openModal = (content) => {
     setModalContent(content);
@@ -28,6 +33,34 @@ function App() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  /*
+
+  const handleUserStarts = () => {
+    setUserStarts(true);
+    setIsModalOpen(false);
+  };
+
+  const handleAIStarts = () => {
+    setUserStarts(false);
+    setIsModalOpen(false);
+  };
+  */
+    
+  const handleWhoStarts = (userStarts) => {
+    setIsUserTurnModalOpen(false);
+
+    if (userStarts) {
+      console.log("User starts the game. Make your first move!");
+      
+    } else {
+      console.log("AI starts the game");
+      // AIMove(); 
+
+    }
+    
+  };
+    
   
   const howToPlayContent = (
     <>
@@ -117,7 +150,8 @@ function App() {
 
           <CuteButton text={"2 Players (coming soon)"} color={"#CDCDCD"} style={{ color: "#000", opacity: 0.5, pointerEvents: 'none' }} />
 
-          <CuteButton text={"AI mode"} color={"#CBE3C3"} style={{ color: "#000" }} onClick = {() => {setMode("AIMove")}} />
+          
+          <CuteButton text={"AI mode"} color={"#CBE3C3"} style={{ color: "#000" }} onClick={() => {setIsUserTurnModalOpen(true); setMode("AI")}} />
 
         
 
@@ -125,6 +159,14 @@ function App() {
 
         <Modal isOpen={isModalOpen} closeModal={closeModal}>
           {modalContent}
+        </Modal>
+
+        <Modal isOpen={isUserTurnModalOpen} closeModal={() => setIsUserTurnModalOpen(false)}>
+          <h2>Who starts the game?</h2>
+          <div>
+            <CuteButton text="User" color="#CBE3C3" style={{ color: "#000", marginRight: "10px" }} onClick={() => handleWhoStarts(true)} />
+            <CuteButton text="AI" color="#CBE3C3" style={{ color: "#000" }} onClick={() => handleWhoStarts(false)} />
+          </div>
         </Modal>
 
           {/* <p> Current mode: {isLocalMode ? 'local' : 'remote'} </p>

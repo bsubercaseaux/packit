@@ -172,17 +172,23 @@ const AIGame = () => {
         setGrid(newGrid);
     }
 
-    const onPlayerTurn = (move) => {
+    const onPlayerTurn = async (move) => {
+        console.log("Player turn!");
         if (currentTurn === 1) {
             setHumanStart(true);
+
         }
         if (!solitaireMode) {
-            onTurn(move);
+            await onTurn(move);
+            console.log("AI Move before");
+            await new Promise(r => setTimeout(r, 5000));
+            await AIMove();
+            console.log("AI Move after");
         }
         
     }
     
-    const AIMove = () => {
+    const AIMove = async () => {
         if (currentTurn === 1) {
             setHumanStart(false);
         }
@@ -207,7 +213,7 @@ const AIGame = () => {
         }
         console.log(st);
     }
-    
+    /*
     const onTurn = (move) => {
         if (!move) {
             // Handle the case where the move is null
@@ -260,11 +266,70 @@ const AIGame = () => {
         
         setCurrentTurn(currentTurn + 1);  
     };
+    */
+
+    const onTurn = async (move) => {
+        console.log("Turn number:", currentTurn);
+        if (!move) {
+            // Handle the case where the move is null
+            console.log("No valid move found for AI player.");
+            return;
+        }
+    
+        const { topLeft, bottomRight } = move;
+                
+        if (!isValidPlacement(grid, topLeft.row, topLeft.col, bottomRight.row, bottomRight.col, currentTurn)) {
+            return; // no-op
+        }
+                
+        setGrid(grid => grid.map((rowArray, rowIndex) => {
+            return rowArray.map((cell, colIndex) => {
+                if (rowIndex >= topLeft.row && rowIndex <= bottomRight.row && colIndex >= topLeft.col && colIndex <= bottomRight.col) {
+                    return currentTurn;
+                } else {
+                    return cell;
+                }
+            });
+        }));
+            
+        const inducedRectangle = [topLeft.row, topLeft.col, bottomRight.row, bottomRight.col];
+        // check winner
+        let canContinue = false;
+        for (let i = 0; i < grid.length; i++) {
+            for (let j = 0; j < grid.length; j++) {
+                for(let a = i; a < grid.length; a++) {
+                    for(let b = j; b < grid.length; b++) {
+                        if(isValidPlacement(grid, i, j, a, b, currentTurn + 1) && !intersect(inducedRectangle, [i, j, a, b])) {
+                            canContinue = [i, j, a, b];
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    
+        if(!canContinue) {
+            // currentTurn is odd <—> last move was done by the same who started
+            if (humanStart  === true) {
+                setWinner(currentTurn % 2 ? 'Player': 'AI');
+            } else {
+                setWinner(currentTurn % 2 ? 'AI': 'Player');
+            }
+            console.log('Game over!');
+        }
+        console.log("current turn:", currentTurn);
+        setCurrentTurn(currentTurn + 1);
+        await new Promise(r => setTimeout(r, 500));
+        console.log("current turn:", currentTurn);
+        console.log("On Turn worked");
+    }
+    
 
 
 
     // speed it up: benchmark it (record how long it takes on sheets - get up to grid 20, try different depths too)
     // fix algorithm? tbd ...
+    // modal asking us on who they want to start, get rid of AImove, end of human turn tiggers the AI to move again
        // minimax with alpha, beta, pruning: branches where you abandon them b/c they're too stupid to try, too good = avoid exploring the rest
           // already explored a branch, best evaluation is 20 vs other ones wont be better than 10, no point in exploring other branches
           // 
@@ -290,9 +355,9 @@ const AIGame = () => {
                 <button className="resetBtn" style={{ marginLeft: 10 }} onClick={() => resetGame(gridSize)}>
                     Reset
                 </button>
-                <button className="" style={{ marginLeft: 10 }} onClick={() => AIMove()}>
+                {/* <button className="" style={{ marginLeft: 10 }} onClick={() => AIMove()}>
                     AIMove
-                </button>
+                </button> */}
             </div>
             Print board
         </div>
