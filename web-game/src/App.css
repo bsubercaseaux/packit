@@ -114,19 +114,9 @@ input[type=number]::-webkit-inner-spin-button {
   margin-top: 0px;
 }
 
-/* .modal::before { 
-  content: "";
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.3);
-  position: fixed;
-  display: inline-block;
-  top: 0;
-  left: 0;
-  z-index: 999; 
-} */
+
 .modal-close {
-  background: #ccc;
+  background: transparent;
   border: none;
   padding: 8px;
   cursor: pointer;
@@ -136,21 +126,7 @@ input[type=number]::-webkit-inner-spin-button {
   margin-top: 10px;
 }
 
-/*
-.howTo {
-  border:#fff solid 1px;
-  background-color: transparent;
-  color: #fff;
-  border-radius: 5px;
-  margin-bottom: 15px;
-}
 
-.howTo:hover {
-  background-color: #2eb02e;
-  
-}
-
-*/
 .row {
   display: flex;
 }

@@ -95,11 +95,11 @@ function App() {
           <CuteButton text={"AI mode"} color={"#CBE3C3"} style={{ color: "#000" }} onClick={() => {setIsUserTurnModalOpen(true)}} />
 
 
-        <Modal isOpen={isModalOpen} closeModal={closeModal}>
+        <Modal isOpen={isModalOpen} closeModal={closeModal} size="large">
           {modalContent}
         </Modal>
 
-        <Modal isOpen={isUserTurnModalOpen} closeModal={() => setIsUserTurnModalOpen(false)}>
+        <Modal isOpen={isUserTurnModalOpen} closeModal={() => setIsUserTurnModalOpen(false)} size="small">
           <h2>Who starts the game?</h2>
           <div>
             <CuteButton text="User" color="#CBE3C3" style={{ color: "#000", marginRight: "10px" }} onClick={() => handleWhoStarts("human")} />
