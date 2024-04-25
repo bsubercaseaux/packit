@@ -116,9 +116,6 @@ const LocalGame = () => {
                     Reset
                 </button>
             </div>
-        
-                    Print board
-            
         </div>
     );
 };

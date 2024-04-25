@@ -26,11 +26,13 @@ class GameState {
                     for (let colEnd = colStart; colEnd < this.board[0].length; colEnd++) {
                         if (isValidPlacement(this.board, rowStart, colStart, rowEnd, colEnd, turn) ) {
                             moves.push({topLeft:{row:rowStart, col: colStart}, bottomRight:{row: rowEnd, col: colEnd}});
+                            // console log each move and try to figure out what's happening
                         }
                     }
                 } 
             }
         }
+        
         return moves;
     }
 
@@ -276,10 +278,8 @@ const AIGame = ({startingPlayer}) => {
     
     // speed it up: benchmark it (record how long it takes on sheets - get up to grid 20, try different depths too)
     // fix algorithm? tbd ...
-    // modal asking us on who they want to start, get rid of AImove, end of human turn tiggers the AI to move again
-       // minimax with alpha, beta, pruning: branches where you abandon them b/c they're too stupid to try, too good = avoid exploring the rest
-          // already explored a branch, best evaluation is 20 vs other ones wont be better than 10, no point in exploring other branches
-          // 
+    
+
 
     // Render the game board
     return (
@@ -304,7 +304,6 @@ const AIGame = ({startingPlayer}) => {
                     AIMove
                 </button>  */}
             </div>
-            Print board
         </div>
     );
 };
