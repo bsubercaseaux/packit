@@ -27,6 +27,7 @@ class GameState {
                         if (isValidPlacement(this.board, rowStart, colStart, rowEnd, colEnd, turn) ) {
                             moves.push({topLeft:{row:rowStart, col: colStart}, bottomRight:{row: rowEnd, col: colEnd}});
                             // console log each move and try to figure out what's happening
+                            // look at evaluation function to see if there is a mistake
                         }
                     }
                 } 
@@ -66,10 +67,33 @@ class GameState {
 }
 
 
-function evaluateBoard(board) {
+function evaluateGameState(gameState, maximizingPlayer, currentTurn, startingPlayer) {
+    let AIPlayer = !maximizingPlayer; 
     let evaluation = 0;
+    if (gameState.isGameOver()) {
+        if (maximizingPlayer) {
+            return -1000000000;
+        }
+        else {
+            return 1000000000;
+        }
+
+    } else {
+        return 0;
+
+    }
+
+
+   
+
+
 
     
+
+
+
+    /*
+
     let tilesCount = 0; // note for myself: counting number of tiles placed
     for (let i = 0; i < board.length; i++) {
         for (let j = 0; j < board[i].length; j++) {
@@ -78,6 +102,8 @@ function evaluateBoard(board) {
             }
         }
     }
+    
+
 
     let areaCovered = 0; // note for myself: calculating the area covered by the tiles
     for (let i = 0; i < board.length; i++) {
@@ -87,24 +113,27 @@ function evaluateBoard(board) {
             }
         }
     }
+   
+
 
     evaluation = tilesCount + areaCovered;
 
     return evaluation;
+     */
 }
 
 
 // Minimax algorithm 
-function minimax(gameState, depth, maximizingPlayer) {
+function minimax(gameState, depth, maximizingPlayer, startingPlayer) {
     if (depth === 0 || gameState.isGameOver()) {
-        return evaluateBoard(gameState.board);
+        return evaluateGameState(gameState, maximizingPlayer, gameState.turn, startingPlayer);
     }
 
     if (maximizingPlayer) {
         let maxEval = -Infinity;
         for (const move of gameState.legalMoves(gameState.turn)) {
             gameState.makeMove(move);
-            const evaluation = minimax(gameState, depth - 1, false);
+            const evaluation = minimax(gameState, depth - 1, false, startingPlayer);
             gameState.undoMove(move);
             maxEval = Math.max(maxEval, evaluation);
         }
@@ -113,7 +142,7 @@ function minimax(gameState, depth, maximizingPlayer) {
         let minEval = Infinity;
         for (const move of gameState.legalMoves(gameState.turn)) {
             gameState.makeMove(move);
-            const evaluation = minimax(gameState, depth - 1, true);
+            const evaluation = minimax(gameState, depth - 1, true, startingPlayer);
             gameState.undoMove(move);
             minEval = Math.min(minEval, evaluation);
         }
@@ -122,17 +151,17 @@ function minimax(gameState, depth, maximizingPlayer) {
 }
 
 
-function getAIMove(gameState, depth) {
+function getAIMove(gameState, depth, startingPlayer) {
     let bestMove = null;
     let bestEval = -Infinity;
     let turn = gameState.turn;
     let array_test = gameState.legalMoves(turn);
     console.log(array_test);
-    for (const move of gameState.legalMoves(turn)) {
+    for (const move of gameState.legalMoves(turn)) { // AI is minimizing evaluation
         gameState.makeMove(move);
-        const evaluation = minimax(gameState, depth - 1, false);
+        const evaluation = minimax(gameState, depth - 1, false, startingPlayer);
         gameState.undoMove(move);
-        if (evaluation > bestEval) {
+        if (evaluation > bestEval) { 
             bestEval = evaluation; 
             bestMove = move;
         }
@@ -201,7 +230,7 @@ const AIGame = ({startingPlayer}) => {
             setHumanStart(false);
         }
         let newGameState = new GameState(grid, currentTurn);
-        let aiMove = getAIMove(newGameState, aiDepth);
+        let aiMove = getAIMove(newGameState, aiDepth, startingPlayer);
         console.log("Line: 178, aiMove =", aiMove);
         onTurn(aiMove);
     }
