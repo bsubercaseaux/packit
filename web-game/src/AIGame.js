@@ -122,29 +122,42 @@ function evaluateGameState(gameState, maximizingPlayer, currentTurn, startingPla
      */
 }
 
+// keep it all powerful??
 
 // Minimax algorithm 
-function minimax(gameState, depth, maximizingPlayer, startingPlayer) {
+function minimax(gameState, depth, alpha, beta, maximizingPlayer, startingPlayer) {
     if (depth === 0 || gameState.isGameOver()) {
         return evaluateGameState(gameState, maximizingPlayer, gameState.turn, startingPlayer);
     }
+    //console.log("Alpha:", alpha, "Beta:", beta);
+
 
     if (maximizingPlayer) {
         let maxEval = -Infinity;
         for (const move of gameState.legalMoves(gameState.turn)) {
             gameState.makeMove(move);
-            const evaluation = minimax(gameState, depth - 1, false, startingPlayer);
+            const evaluation = minimax(gameState, depth - 1, alpha, beta, false, startingPlayer);
             gameState.undoMove(move);
             maxEval = Math.max(maxEval, evaluation);
+            alpha = Math.max(alpha, evaluation);
+            if (beta <= alpha) { // 
+               // console.log("break!!")
+                break
+            }
         }
         return maxEval;
     } else {
         let minEval = Infinity;
         for (const move of gameState.legalMoves(gameState.turn)) {
             gameState.makeMove(move);
-            const evaluation = minimax(gameState, depth - 1, true, startingPlayer);
+            const evaluation = minimax(gameState, depth - 1, alpha, beta, true, startingPlayer);
             gameState.undoMove(move);
             minEval = Math.min(minEval, evaluation);
+            beta = Math.min(beta, evaluation);
+            if (beta <= alpha) { // if there's an error, it's here
+                //console.log("break!!")
+                break
+            }
         }
         return minEval;
     }
@@ -159,7 +172,7 @@ function getAIMove(gameState, depth, startingPlayer) {
     console.log(array_test);
     for (const move of gameState.legalMoves(turn)) { // AI is minimizing evaluation
         gameState.makeMove(move);
-        const evaluation = minimax(gameState, depth - 1, false, startingPlayer);
+        const evaluation = minimax(gameState, depth - 1, -Infinity, Infinity, false, startingPlayer);
         gameState.undoMove(move);
         if (evaluation > bestEval) { 
             bestEval = evaluation; 

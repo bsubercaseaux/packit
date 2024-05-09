@@ -40,6 +40,7 @@ function App() {
       console.log("AI starts the game");
     }
     setMode("AI")
+  
     
   };
     
